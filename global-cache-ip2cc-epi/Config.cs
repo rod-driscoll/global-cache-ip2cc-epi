@@ -6,8 +6,8 @@ namespace global_cache_ip2cc_epi
 {
     public class Config // this is properties
     {
-        [JsonProperty("relayPulseTime")]
-        public int RelayPulseTime { get; set; }
+        [JsonProperty("pulseTime")]
+        public int PulseTime { get; set; }
         /// <summary>
         /// JSON control object: device.properties
         /// </summary>

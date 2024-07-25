@@ -1,6 +1,7 @@
 # Global Cache IP2CC - PepperDash Essentials Plugin
 
 v1.0.0
+WIP - Not tested yet.
 
 ## License
 
@@ -40,11 +41,14 @@ Using NuGet package manager install the following:
 1. "PepperDashEssentials"
    1. Delete "NewtonSoft.Json.Compact" from the references folder to remove the duplicate library issue.
 2. "Crestron.SimplSharp.SDK.ProgramLibrary" to "minimal-tp" project only.
-3. 
+
+
 ### Contributors
+
 Rodney Driscoll: <rod@theavitgroup.com.au>
 
 # References
+
 - https://github.com/rod-driscoll/essentials-custom-rooms
 - https://github.com/rod-driscoll/epi-pjlink
 - https://github.com/rod-driscoll/epi-relay-controlled-motor

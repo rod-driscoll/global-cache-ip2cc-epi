@@ -16,16 +16,19 @@ namespace global_cache_ip2cc_epi
         #region variables
         public uint LogLevel { get; set; }
         public Config config { get; private set; }
-
-        int relayPulseTime = 200;
         int numRelays = 3;
-        uint tcpBasePort = 4999;
-        public FeedbackCollection<Feedback> Feedbacks { get; private set; }
+        int tcpBasePort = 4999;
         public bool[] relayState { get; private set; }
 
         private CTimer _pollTimer;
         private const int _pollTime = 6000;
 
+        public FeedbackCollection<Feedback> Feedbacks { get; private set; } 
+        public BoolFeedback IsOnline
+        {
+            get { return CommunicationMonitor.IsOnlineFeedback; }
+        }
+        public StatusMonitorBase CommunicationMonitor { get; private set; }
         private readonly IBasicCommunication _coms;
         private readonly GenericQueue _commandQueue;
 
@@ -35,15 +38,16 @@ namespace global_cache_ip2cc_epi
             : base(key, name)
         {
             Debug.Console(1, this, "Constructor starting");
+            _coms = coms; 
             this.config = config;
-            _coms = coms;
+            //this.config.Control.TcpSshProperties.Port = this.config.Control.TcpSshProperties.Port == 0 ? tcpBasePort : this.config.Control.TcpSshProperties.Port; -- this won't work, need to set port in coms on creation
+            this.config.PulseTime = this.config.PulseTime == 0 ? 200 : this.config.PulseTime;
+            if (this.config.Monitor == null)
+                this.config.Monitor = GetDefaultMonitorConfig();
 
-            if (config.Monitor == null)
-                config.Monitor = GetDefaultMonitorConfig();
-
-            CommunicationMonitor = new GenericCommunicationMonitor(this, coms, config.Monitor);
+            CommunicationMonitor = new GenericCommunicationMonitor(this, _coms, this.config.Monitor);
             //DeviceManager.AddDevice(CommunicationMonitor);
-            var gather = new CommunicationGather(coms, "\x0D");
+            var gather = new CommunicationGather(_coms, "\x0D");
 
             _commandQueue = new GenericQueue(key + "-command-queue", 213, Thread.eThreadPriority.MediumPriority, 50);
 
@@ -79,12 +83,6 @@ namespace global_cache_ip2cc_epi
             Debug.Console(0, this, "CommunicationMonitor_StatusChange: {0} - {1}", e.Status, e.Message);
         }
 
-        public StatusMonitorBase CommunicationMonitor { get; private set; }
-
-        public BoolFeedback IsOnline
-        {
-            get { return CommunicationMonitor.IsOnlineFeedback; }
-        }
 
         public override bool CustomActivate()
         {
