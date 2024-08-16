@@ -17,7 +17,7 @@ namespace global_cache_ip2cc_epi
         public uint LogLevel { get; set; }
         public Config config { get; private set; }
         int numRelays = 3;
-        int tcpBasePort = 4999;
+        int tcpBasePort = 4998; //getdevices, getstates, setstate
         public bool[] relayState { get; private set; }
 
         private CTimer _pollTimer;
