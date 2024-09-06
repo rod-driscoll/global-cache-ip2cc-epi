@@ -1,5 +1,6 @@
 ﻿using PepperDash.Core;
 using PepperDash.Essentials.Core;
+using Serilog.Events;
 using System.Linq;
 
 namespace global_cache_ip2cc_epi
@@ -20,7 +21,7 @@ namespace global_cache_ip2cc_epi
                 if (feedback is StringFeedback)
                     feedback.OutputChange +=
                         (sender, args) =>
-                            Debug.Console(1,
+                            Debug.LogMessage(LogEventLevel.Debug,
                                 keyed,
                                 "Received an update {0}: '{1}'",
                                 feedback.Key,
@@ -29,7 +30,7 @@ namespace global_cache_ip2cc_epi
                 if (feedback is IntFeedback)
                     feedback.OutputChange +=
                         (sender, args) =>
-                            Debug.Console(1,
+                            Debug.LogMessage(LogEventLevel.Debug,
                                 keyed,
                                 "Received an update {0}: '{1}'",
                                 feedback.Key,
@@ -38,7 +39,7 @@ namespace global_cache_ip2cc_epi
                 if (feedback is BoolFeedback)
                     feedback.OutputChange +=
                         (sender, args) =>
-                            Debug.Console(1,
+                            Debug.LogMessage(LogEventLevel.Debug,
                                 keyed,
                                 "Received an update {0}: '{1}'",
                                 feedback.Key,

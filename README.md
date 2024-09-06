@@ -1,7 +1,6 @@
 # Global Cache IP2CC - PepperDash Essentials Plugin
 
-v1.0.0
-WIP - Not tested yet.
+v1.0.0 - working version
 
 ## License
 
